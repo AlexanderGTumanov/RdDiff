@@ -5,7 +5,7 @@ Clone this repository using
 ```console
 git clone https://github.com/AlexanderGTumanov/coordinate-differentiation-for-mathematica.git
 ```
-This will create a new directory ``coordinate-differentiation-for-mathematica-for-mathematica`` in the current working directory. In your notebook file, add
+This will create a new directory ``coordinate-differentiation-for-mathematica-for-mathematica`` in the current working directory. Alternatively, you can manually download the ``CoordinateDifferentiation.m`` file. In your notebook file, add
 ```mathematica
 SetDirectory["location_of_the_coordinate-differentiation-for-mathematica_folder"];
 <<CoordinateDifferentiation`;
