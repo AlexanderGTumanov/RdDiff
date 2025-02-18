@@ -11,7 +11,7 @@ SetDirectory["location_of_the_coordinate-differentiation-for-mathematica_folder"
 <<CoordinateDifferentiation`;
 ```
 ## Usage
-This package is designed to perform various operations on functions, vectors, and tensors in a dd-dimensional flat space. The metric signature is irrelevant, as the code does not rely on it. That being said, it is the user's responsibility to ensure the correct placement of upper and lower indices. The package's notation can be summarized in the following table,
+This package is designed to perform various operations on d-dimensional functions, vectors, and tensors that respect the ``SO(d)`` symmetry (meaning that they depend exclusively on the distances between points). The metric signature is irrelevant, as the code does not rely on it. That being said, it is the user's responsibility to ensure the correct placement of upper and lower indices. The package's notation can be summarized in the following table,
 
 | Object                                | Notation            |
 | --------                              | -------             |
@@ -20,7 +20,7 @@ This package is designed to perform various operations on functions, vectors, an
 | $x_{ij}^2 = \left(x_i-x_j\right)^2$   | ``xx[i,j]``         |
 | $\frac{\partial f}{\partial x_i^\mu}$ | ``DD[f,{i,\[Mu]}]`` |
 
-``x[i,\[Mu]]`` represents the set of variables on which the function depends. The first argument labels the variable itself—it does not have to be a number but must be unique for each variable. Any vector parameters should also be included in this set. The package does not support parameters with more complex tensor structures.
+``x[i,\[Mu]]`` represents the set of variables on which the function depends. The first argument labels the variable itself—it does not have to be a number but must be unique for each variable. Any vector parameters should also be encoded in this fashion. The package does not support parameters with more complex tensor structures.
 
 The ``xx`` function is used to denote distances between points or between each point and the origin. Other notations include ``d`` for the dimension of the space and ``\[Delta][\[Mu],\[Nu]]`` for the Kronecker delta.
 
