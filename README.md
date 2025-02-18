@@ -11,7 +11,7 @@ SetDirectory["location_of_the_coordinate-differentiation-for-mathematica_folder"
 <<CoordinateDifferentiation`;
 ```
 ## Usage
-This package is designed to perform various operations on d-dimensional functions, vectors, and tensors that respect the ``SO(d)`` symmetry (meaning that they depend exclusively on the distances between points). The metric signature is irrelevant, as the code does not rely on it. That being said, it is the user's responsibility to ensure the correct placement of upper and lower indices. The package's notation can be summarized in the following table,
+This package is designed to perform various operations on d-dimensional functions, vectors, and tensors that respect the ``SO(d)`` symmetry of the space (meaning that they depend exclusively on distances between the points). The metric signature is irrelevant, as the code does not rely on it. The package's notation can be summarized in the following table,
 
 | Object                                | Notation            |
 | --------                              | -------             |
