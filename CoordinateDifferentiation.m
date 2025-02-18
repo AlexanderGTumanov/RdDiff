@@ -23,7 +23,7 @@ ParallelDD[f_,II_] :=
 		ParallelSum[2D[f,CC[[ii]]]((x@@II)-x[First[Complement[List@@CC[[ii]],{II[[1]]}]],II[[2]]]),{ii,Length[CC]}]
 	] +
 	Block[{CC=Union@Cases[{f},x[II[[1]],__],\[Infinity]]},
-		If[CC=={},0,Sum[\[Delta][II[[2]],Last[List@@CC[[ii]]]] Coefficient[f,CC[[ii]]],{ii,Length[CC]}]]
+		If[CC=={},0,ParallelSum[\[Delta][II[[2]],Last[List@@CC[[ii]]]] Coefficient[f,CC[[ii]]],{ii,Length[CC]}]]
 	] + 2 D[f,xx[II[[1]]]](x@@II)
 
 Clear[Contract]
