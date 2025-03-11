@@ -9,51 +9,41 @@ Attributes[xx] = Orderless;
 Attributes[\[Delta]] = Orderless;
 
 Clear[DD]
-DD[f_,II_] :=
+DD[f_, II_] :=
 	Block[{CC=Union@Join[Cases[{f},xx[II[[1]],__],\[Infinity]],Cases[{f},xx[__,II[[1]]],\[Infinity]]]},
-		Sum[2D[f,CC[[ii]]]((x@@II)-x[First[Complement[List@@CC[[ii]],{II[[1]]}]],II[[2]]]),{ii,Length[CC]}]
+		Sum[2D[f,CC[[ii]]]((x@@II)-x[Complement[List@@CC[[ii]],{II[[1]]}][[1]],II[[2]]]),{ii,Length[CC]}]
 	] +
 	Block[{CC=Union@Cases[{f},x[II[[1]],__],\[Infinity]]},
-		If[CC=={},0,Sum[\[Delta][II[[2]],Last[List@@CC[[ii]]]] Coefficient[f,CC[[ii]]],{ii,Length[CC]}]]
+		Sum[\[Delta][II[[2]],Last[List@@CC[[ii]]]] Coefficient[f,CC[[ii]]],{ii,Length[CC]}]
 	] + 2 D[f,xx[II[[1]]]](x@@II)
-DD::usage = "DD[expr,{i,\[Mu]}] computes the partial derivative of expr with respect to \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(i\)], \(\[Mu]\)]\). The expression expr should depend exclusively on SO(d) invariant quntities x[a,\[Alpha]] = \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(a\)], \(\[Alpha]\)]\), xx[a] = \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(a\)], \(2\)]\) = \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(a\)], \(\[Alpha]\)]\)\!\(\*SubscriptBox[\(x\), \(a\[Alpha]\)]\), and xx[a,b] = (\!\(\*SubscriptBox[\(x\), \(a\)]\)- \!\(\*SubscriptBox[\(x\), \(b\)]\)\!\(\*SuperscriptBox[\()\), \(2\)]\).";
+DD::usage = "DD[expr,{a,i}] computes the partial derivative of expr with respect to \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(a\)], \(i\)]\).";
 	
 Clear[ParallelDD]
-ParallelDD[f_,II_] :=
+ParallelDD[f_, II_] :=
 	Block[{CC=Union@Join[Cases[{f},xx[II[[1]],__],\[Infinity]],Cases[{f},xx[__,II[[1]]],\[Infinity]]]},
-		ParallelSum[2D[f,CC[[ii]]]((x@@II)-x[First[Complement[List@@CC[[ii]],{II[[1]]}]],II[[2]]]),{ii,Length[CC]}]
+		ParallelSum[2D[f,CC[[ii]]]((x@@II)-x[Complement[List@@CC[[ii]],{II[[1]]}][[1]],II[[2]]]),{ii,Length[CC]}]
 	] +
 	Block[{CC=Union@Cases[{f},x[II[[1]],__],\[Infinity]]},
-		If[CC=={},0,ParallelSum[\[Delta][II[[2]],Last[List@@CC[[ii]]]] Coefficient[f,CC[[ii]]],{ii,Length[CC]}]]
+		ParallelSum[\[Delta][II[[2]],Last[List@@CC[[ii]]]] Coefficient[f,CC[[ii]]],{ii,Length[CC]}]
 	] + 2 D[f,xx[II[[1]]]](x@@II)
-ParallelDD::usage = "ParallelDD[expr,{i,\[Mu]}] computes the partial derivative of expr with respect to \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(i\)], \(\[Mu]\)]\). The expression expr should depend exclusively on SO(d) invariant quntities x[a,\[Alpha]] = \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(a\)], \(\[Alpha]\)]\), xx[a] = \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(a\)], \(2\)]\) = \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(a\)], \(\[Alpha]\)]\)\!\(\*SubscriptBox[\(x\), \(a\[Alpha]\)]\), and xx[a,b] = (\!\(\*SubscriptBox[\(x\), \(a\)]\)- \!\(\*SubscriptBox[\(x\), \(b\)]\)\!\(\*SuperscriptBox[\()\), \(2\)]\). This function uses parallel evaluation.";
+ParallelDD::usage = "ParallelDD[expr,{a,i}] computes the partial derivative of expr with respect to \!\(\*SuperscriptBox[SubscriptBox[\(x\), \(a\)], \(i\)]\). This function uses parallel evaluation.";
 
 Clear[Contract]
-Contract[f_,\[Mu]_] :=
-	Block[{CC=If[TrueQ[Head[ExpandAll[f/.\[Delta][\[Mu],_]->0]]==Plus],List@@ExpandAll[f/.\[Delta][\[Mu],_]->0],{f/.\[Delta][\[Mu],_]->0}]/.{0}->{}},
-		Sum[Block[{QQ=Sort@Cases[CC[[ii]],x[_,\[Mu]],\[Infinity]]},
-			(CC[[ii]]/.x[_,\[Mu]]->1)If[Length[QQ]==1,xx@@(QQ/.x[a_,\[Mu]]:>a),1/2 (xx[First[QQ]/.x[a_,\[Mu]]:>a]+xx[Last[QQ]/.x[a_,\[Mu]]:>a]-xx@@(QQ/.x[a_,\[Mu]]:>a))]
-		],{ii,Length[CC]}]
-	] +
-	Block[{CC=If[TrueQ[Head[ExpandAll[(f/.\[Delta][\[Mu],\[Mu]]->0)-(f/.\[Delta][\[Mu],_]->0)]]==Plus],List@@ExpandAll[(f/.\[Delta][\[Mu],\[Mu]]->0)-(f/.\[Delta][\[Mu],_]->0)],{(f/.\[Delta][\[Mu],\[Mu]]->0)-(f/.\[Delta][\[Mu],_]->0)}]/.{0}->{}},
-		Sum[Block[{QQ=Select[Flatten[List@@#&/@Cases[CC[[ii]],\[Delta][\[Mu],_],\[Infinity]]],!TrueQ[#==\[Mu]]&]},
-			If[Length[QQ]==2,(\[Delta]@@QQ)(CC[[ii]]/.\[Delta][\[Mu],_]->1),If[FreeQ[CC[[ii]],x[_,\[Mu]]],(\[Delta]@@Join[QQ,QQ])(CC[[ii]]/.\[Delta][\[Mu],_]->1),CC[[ii]]/.{\[Delta][\[Mu],_]->1,x[a_,\[Mu]]:>x[a,First[QQ]]}]]
-		],{ii,Length[CC]}]
-	] + d Coefficient[f,\[Delta][\[Mu],\[Mu]]]/;!ListQ[\[Mu]]
-Contract[f_,\[Mu]\[Mu]_] := First@Nest[{Contract[#[[1]],\[Mu]\[Mu][[#[[2]]]]],#[[2]]+1}&,{f,1},Length[\[Mu]\[Mu]]]/;ListQ[\[Mu]\[Mu]]
-Contract::usage = "Contract[expr,\[Mu]] computes the contraction of expr on the \[Mu] index. For this to work, each term in expr should contain a bilinear comination x[i,\[Mu]]x[j,\[Mu]], or the Kronecker delta \[Delta][\[Mu],\[Mu]]. Contract[expr,{\[Mu][1],...\[Mu][k]}] performs k independent contractions on each of the indexes.";
+Contract[f_,II_] :=
+	 Block[{Lx1=Union@Cases[{f},x[_,II[[1]]],\[Infinity]],Lx2=Union@Cases[{f},x[_,II[[2]]],\[Infinity]],L\[Delta]1=Union@Cases[{f}/.\[Delta]@@II->0,\[Delta][II[[1]],_],\[Infinity]],L\[Delta]2=Union@Cases[{f}/.\[Delta]@@II->0,\[Delta][II[[2]],_],\[Infinity]]},
+		Sum[If[TrueQ[Lx1[[ii,1]]==Lx2[[jj,1]]],xx[Lx1[[ii,1]]],1/2(xx[Lx1[[ii,1]]]+xx[Lx2[[jj,1]]]-xx[Lx1[[ii,1]],Lx2[[jj,1]]])](f//Coefficient[#,Lx1[[ii]]]&//Coefficient[#,Lx2[[jj]]]&),{ii,Length[Lx1]},{jj,Length[Lx2]}] +
+		Sum[x[Lx1[[ii,1]],Complement[List@@(L\[Delta]2[[jj]]),{II[[2]]}][[1]]](f//Coefficient[#,Lx1[[ii]]]&//Coefficient[#,L\[Delta]2[[jj]]]&),{ii,Length[Lx1]},{jj,Length[L\[Delta]2]}] +
+		Sum[x[Lx2[[jj,1]],Complement[List@@(L\[Delta]1[[ii]]),{II[[1]]}][[1]]](f//Coefficient[#,L\[Delta]1[[ii]]]&//Coefficient[#,Lx2[[jj]]]&),{ii,Length[L\[Delta]1]},{jj,Length[Lx2]}] +
+		Sum[\[Delta][Complement[List@@(L\[Delta]1[[ii]]),{II[[1]]}][[1]],Complement[List@@(L\[Delta]2[[ii]]),{II[[2]]}][[1]]](f//Coefficient[#,L\[Delta]1[[ii]]]&//Coefficient[#,L\[Delta]2[[jj]]]&),{ii,Length[L\[Delta]1]},{jj,Length[L\[Delta]2]}]
+	 ] + d Coefficient[f,\[Delta]@@II]
+Contract::usage = "Contract[expr,{i,j}] computes the contraction of expr on i and j indexes.";
 
 Clear[ParallelContract]
-ParallelContract[f_,\[Mu]_] :=
-	Block[{CC=If[TrueQ[Head[ExpandAll[f/.\[Delta][\[Mu],_]->0]]==Plus],List@@ExpandAll[f/.\[Delta][\[Mu],_]->0],{f/.\[Delta][\[Mu],_]->0}]/.{0}->{}},
-		ParallelSum[Block[{QQ=Sort@Cases[CC[[ii]],x[_,\[Mu]],\[Infinity]]},
-			(CC[[ii]]/.x[_,\[Mu]]->1)If[Length[QQ]==1,xx@@(QQ/.x[a_,\[Mu]]:>a),1/2 (xx[First[QQ]/.x[a_,\[Mu]]:>a]+xx[Last[QQ]/.x[a_,\[Mu]]:>a]-xx@@(QQ/.x[a_,\[Mu]]:>a))]
-		],{ii,Length[CC]}]
-	] +
-	Block[{CC=If[TrueQ[Head[ExpandAll[(f/.\[Delta][\[Mu],\[Mu]]->0)-(f/.\[Delta][\[Mu],_]->0)]]==Plus],List@@ExpandAll[(f/.\[Delta][\[Mu],\[Mu]]->0)-(f/.\[Delta][\[Mu],_]->0)],{(f/.\[Delta][\[Mu],\[Mu]]->0)-(f/.\[Delta][\[Mu],_]->0)}]/.{0}->{}},
-		ParallelSum[Block[{QQ=Select[Flatten[List@@#&/@Cases[CC[[ii]],\[Delta][\[Mu],_],\[Infinity]]],!TrueQ[#==\[Mu]]&]},
-			If[Length[QQ]==2,(\[Delta]@@QQ)(CC[[ii]]/.\[Delta][\[Mu],_]->1),If[FreeQ[CC[[ii]],x[_,\[Mu]]],(\[Delta]@@Join[QQ,QQ])(CC[[ii]]/.\[Delta][\[Mu],_]->1),CC[[ii]]/.{\[Delta][\[Mu],_]->1,x[a_,\[Mu]]:>x[a,First[QQ]]}]]
-		],{ii,Length[CC]}]
-	] + d Coefficient[f,\[Delta][\[Mu],\[Mu]]]/;!ListQ[\[Mu]]
-ParallelContract[f_,\[Mu]\[Mu]_] := First@Nest[{ParallelContract[#[[1]],\[Mu]\[Mu][[#[[2]]]]],#[[2]]+1}&,{f,1},Length[\[Mu]\[Mu]]]/;ListQ[\[Mu]\[Mu]]
-ParallelContract::usage = "ParallelContract[expr,\[Mu]] computes the contraction of expr on the \[Mu] index. For this to work, each term in expr should contain a bilinear comination x[i,\[Mu]]x[j,\[Mu]], or the Kronecker delta \[Delta][\[Mu],\[Mu]]. ParallelContract[expr,{\[Mu][1],...\[Mu][k]}] performs k independent contractions on each of the indexes. This function uses parallel evaluation.";
+ParallelContract[f_,II_] :=
+	 Block[{Lx1=Union@Cases[{f},x[_,II[[1]]],\[Infinity]],Lx2=Union@Cases[{f},x[_,II[[2]]],\[Infinity]],L\[Delta]1=Union@Cases[{f}/.\[Delta]@@II->0,\[Delta][II[[1]],_],\[Infinity]],L\[Delta]2=Union@Cases[{f}/.\[Delta]@@II->0,\[Delta][II[[2]],_],\[Infinity]]},
+		ParallelSum[If[TrueQ[Lx1[[ii,1]]==Lx2[[jj,1]]],xx[Lx1[[ii,1]]],1/2(xx[Lx1[[ii,1]]]+xx[Lx2[[jj,1]]]-xx[Lx1[[ii,1]],Lx2[[jj,1]]])](f//Coefficient[#,Lx1[[ii]]]&//Coefficient[#,Lx2[[jj]]]&),{ii,Length[Lx1]},{jj,Length[Lx2]}] +
+		ParallelSum[x[Lx1[[ii,1]],Complement[List@@(L\[Delta]2[[jj]]),{II[[2]]}][[1]]](f//Coefficient[#,Lx1[[ii]]]&//Coefficient[#,L\[Delta]2[[jj]]]&),{ii,Length[Lx1]},{jj,Length[L\[Delta]2]}] +
+		ParallelSum[x[Lx2[[jj,1]],Complement[List@@(L\[Delta]1[[ii]]),{II[[1]]}][[1]]](f//Coefficient[#,L\[Delta]1[[ii]]]&//Coefficient[#,Lx2[[jj]]]&),{ii,Length[L\[Delta]1]},{jj,Length[Lx2]}] +
+		ParallelSum[\[Delta][Complement[List@@(L\[Delta]1[[ii]]),{II[[1]]}][[1]],Complement[List@@(L\[Delta]2[[ii]]),{II[[2]]}][[1]]](f//Coefficient[#,L\[Delta]1[[ii]]]&//Coefficient[#,L\[Delta]2[[jj]]]&),{ii,Length[L\[Delta]1]},{jj,Length[L\[Delta]2]}]
+	 ] + d Coefficient[f,\[Delta]@@II]
+ParallelContract::usage = "ParallelContract[expr,{i,j}] computes the contraction of expr on i and j indexes. This function uses parallel evaluation.";
