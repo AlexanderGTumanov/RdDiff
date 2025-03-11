@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
 version=1.0;
-Print["Coordinate differentiation ",ToString@NumberForm[version,{20,1}]]
+Print["RdDiff ",ToString@NumberForm[version,{20,1}]]
 Print["by Alexander G Tumanov"]
 
 Clear[x, xx, \[Delta], d]
