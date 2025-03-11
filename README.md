@@ -1,5 +1,5 @@
 # Coordinate differentiation for Mathematica
-A Wolfram Mathematica implementation of coordinate differentiation in d-dimensional falt spaces. 
+This package/library provides tools for performing differentiation and index contractions on tensor structures in $\mathbb{R}^d$. The structures are assumed to respect $O(d)$ symmetry and therefore depend only on coordinate vectors of different points and the distances between them. The Python library is built on top of SymPy.
 ## Installation
 Clone this repository using
 ```console
