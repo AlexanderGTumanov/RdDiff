@@ -7,14 +7,14 @@ x = sp.Function('x')
 xx = sp.Function('xx', commutative = True)
 delta = sp.Function('delta', commutative = True)
 
-d.__doc__ = """ This symbol is reserved for the dimension of space."""
-x.__doc__ = """ This function represents the a-th component of vector x_i."""
-xx.__doc__ = """ This function represents distances between points. xx(a, b) is the distance between x_a and x_b, xx(a) is the distance between x_a and the origin (length of x_a)"""
-delta.__doc__ = """ This function represents the Kronecker delta of two indexes."""
+d.__doc__ = """ This symbol is reserved for the dimension of space. """
+x.__doc__ = """ This function represents the a-th component of vector x_i. """
+xx.__doc__ = """ This function represents distances between points: xx(a, b) is the distance between x_a and x_b, while xx(a) is the distance between x_a and the origin (i.e., length of x_a). """
+delta.__doc__ = """ This function represents the Kronecker delta of two indexes. """
 
 def arg_complement(obj, arg):
     """
-    This function is used internally to extract the second argument of x, xx, and delta functions, when given the first.
+    This function is used internally to extract the second argument of the x, xx, and delta functions, when given the first argument.
     """
     arg_list = list(obj.atoms())
     return arg_list[1] if arg_list[0] == arg else arg_list[0]
@@ -25,7 +25,7 @@ def DD(expr, dir):
 
     Parameters:
     expr (sp.Basic): The SymPy expression to be differentiated.
-    dir (tuple of two sp.Symbol): A tuple/list with exactly two SymPy symbols: the first is the label (a) of x_a^i, the second is its component (i)
+    dir (tuple of two sp.Symbol): A tuple/list with exactly two SymPy symbols: the first is the label (a) of x_a^i, and the second is its component (i).
 
     Returns:
     sp.Basic
@@ -53,11 +53,11 @@ def DD(expr, dir):
 
 def contract(expr, ind):
     """
-    This function takes the derivative of an expression with respect to a coordiante vector.
+    This function contracts an expression over a pair of indexes.
 
     Parameters:
-    expr (sp.Basic): The SymPy expression to be differentiated.
-    dir (tuple of two sp.Symbol): A tuple/list with exactly two SymPy symbols: the first is the label (a) of x_a^i, the second is its component (i)
+    expr (sp.Basic): The SymPy expression to be contracted.
+    dir (tuple of two sp.Symbol): A tuple/list with exactly two SymPy symbols representing the indexes to be contracted.
 
     Returns:
     sp.Basic
