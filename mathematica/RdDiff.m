@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-version=1.0;
+version=1.1;
 Print["RdDiff ",ToString@NumberForm[version,{20,1}]]
 Print["by Alexander G Tumanov"]
 
