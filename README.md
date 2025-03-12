@@ -5,7 +5,7 @@ This package/library provides tools for performing differentiation and index con
 ### Python
 Clone this repository using
 ```console
-git clone https://github.com/AlexanderGTumanov/coordinate-differentiation-for-mathematica.git
+git clone https://github.com/AlexanderGTumanov/RdDiff.git
 ```
 Navigate to the ``RdDiff`` directory:
 ```console
