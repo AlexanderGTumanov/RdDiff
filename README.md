@@ -43,12 +43,12 @@ The ``xx`` function is used to denote distances between points or between each p
 Function ``DD`` computes the derivative of ``f`` with respect to $x^\mu_i$. For example,
 
 ```mathematica
-In: xx[i,j] x[j,\[Mu]] + x[i,\[Mu]] // DD[#,{i,\[Nu]}] &
-Out: 2 x[j,\[Mu]] (x[i,\[Nu]] - x[j,\[Nu]]) + \[Delta][\[Mu],\[Nu]]
+In: xx[a,b] x[b,i] + x[a,i] // DD[#,{a,j}] &
+Out: 2 x[b,i] (x[a,j] - x[b,j]) + \[Delta][i,j]
 ```
 ```python
-In: xx[i,j] x[j,\[Mu]] + x[i,\[Mu]] // DD[#,{i,\[Nu]}] &
-Out: 2 x[j,\[Mu]] (x[i,\[Nu]] - x[j,\[Nu]]) + \[Delta][\[Mu],\[Nu]]
+In: rdd.DD(rdd.xx(a, b) * rdd.x(b, i) + rdd.x(a, i), (a, j))
+Out: 2 * (x(a, j) - x(b, j)) * x(b, i) + delta(j, i)
 ```
 
 For large-scale calculations in Mathematica, one might use the ``ParallelDD`` function instead.
