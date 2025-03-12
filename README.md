@@ -33,7 +33,7 @@ Replace ``/path/to`` with the actual path where you cloned the repository.
 ## Usage
 This package is designed to perform various operations on d-dimensional functions, vectors, and tensors that depend on multiple coordinate vectors. The metric signature is irrelevant, as the code does not rely on it. The package's notation can be summarized in the following table,
 
-| Object                                | Python Notations    |  Mathematica Notations  |
+| Object                                | Python notations    |  Mathematica notations  |
 | --------                              | -------             | -------                 |
 | $x^i_a$                               | ``x(a,i)``          | ``x[a,i]``              |
 | $x_a^2 = x_a^i\ x_{ai}$               | ``xx(a)``           | ``xx[a]``               |
