@@ -18,6 +18,10 @@ pip install -e .
 Now you can import it in Python:
 ```console
 import RdDiff as rdd
+from RdDiff import x
+from RdDiff import xx
+from RdDiff import d
+from RdDiff import delta
 ```
 ### Mathematica
 Inside the repository, you'll find the ``mathematica`` folder with ``RdDiff.m``.
@@ -43,7 +47,7 @@ The ``xx`` function is used to denote distances between points or between each p
 Function ``DD`` computes the derivative of ``f`` with respect to $x^\mu_i$. For example,
 
 ```python
-In: rdd.DD(rdd.xx(a, b)*rdd.x(b, i) + rdd.x(a, i), (a, j))
+In: rdd.DD(xx(a, b)*x(b, i) + x(a, i), (a, j))
 Out: 2*(x(a, j) - x(b, j))*x(b, i) + delta(j, i)
 ```
 ```mathematica
@@ -56,7 +60,7 @@ For large-scale calculations in Mathematica, one might use the ``ParallelDD`` fu
 This package also enables users to contract tensorial expressions over index pairs using the ``contract`` Python function or the ``Contract``/``ParallelContract`` mathematica functions, as demonstrated in the following example,
 
 ```python
-In: rdd.contract(rdd.delta(i, k)*rdd.x(a, j) + rdd.x(a, i)*rdd.x(a, j)*rdd.x(b, k), (i, j))
+In: rdd.contract(delta(i, k)*x(a, j) + x(a, i)*x(a, j)*x(b, k), (i, j))
 Out: x(a, k) + x(b, k)*xx(a)
 ```
 ```mathematica
