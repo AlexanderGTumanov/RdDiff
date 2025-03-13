@@ -47,8 +47,8 @@ The ``xx`` function is used to denote distances between points or between each p
 Function ``DD`` computes the derivative of ``f`` with respect to $x^\mu_i$. For example,
 
 ```python
-In: rdd.DD(xx(a, b)*x(b, i) + x(a, i), (a, j))
-Out: 2*(x(a, j) - x(b, j))*x(b, i) + delta(j, i)
+In: rdd.DD(xx(a, b) * x(b, i) + x(a, i), (a, j))
+Out: 2 * (x(a, j) - x(b, j)) * x(b, i) + delta(j, i)
 ```
 ```mathematica
 In: xx[a,b] x[b,i] + x[a,i] // DD[#,{a,j}] &
@@ -60,8 +60,8 @@ For large-scale calculations in Mathematica, one might use the ``ParallelDD`` fu
 This package also enables users to contract tensorial expressions over index pairs using the ``contract`` Python function or the ``Contract``/``ParallelContract`` mathematica functions, as demonstrated in the following example,
 
 ```python
-In: rdd.contract(delta(i, k)*x(a, j) + x(a, i)*x(a, j)*x(b, k), (i, j))
-Out: x(a, k) + x(b, k)*xx(a)
+In: rdd.contract(delta(i, k) * x(a, j) + x(a, i) * x(a, j) * x(b, k), (i, j))
+Out: x(a, k) + x(b, k) * xx(a)
 ```
 ```mathematica
 In: \[Delta][i,k] x[a,j] + x[a,i] x[a,j] x[b,k] // Contract[#,{i,j}] &
