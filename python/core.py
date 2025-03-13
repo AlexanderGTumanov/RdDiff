@@ -7,11 +7,6 @@ x = sp.Function('x')
 xx = sp.Function('xx', commutative = True)
 delta = sp.Function('delta', commutative = True)
 
-d.__doc__ = """ This symbol is reserved for the dimension of space. """
-x.__doc__ = """ This function represents the a-th component of vector x_i. """
-xx.__doc__ = """ This function represents distances between points: xx(a, b) is the distance between x_a and x_b, while xx(a) is the distance between x_a and the origin (i.e., length of x_a). """
-delta.__doc__ = """ This function represents the Kronecker delta of two indexes. """
-
 def arg_complement(obj, arg):
     """
     This function is used internally to extract the second argument of the x, xx, and delta functions, when given the first argument.
