@@ -35,10 +35,10 @@ This package is designed to perform various operations on d-dimensional function
 
 | Object                                | Python notations    |  Mathematica notations  |
 | --------                              | -------             | -------                 |
-| $x^i_a$                               | ``x(a,i)``          | ``x[a,i]``              |
+| $x^i_a$                               | ``x(a, i)``         | ``x[a,i]``              |
 | $x_a^2 = x_a^i\ x_{ai}$               | ``xx(a)``           | ``xx[a]``               |
-| $x_{ab}^2 = \left(x_a-x_b\right)^2$   | ``xx(a,b)``         | ``xx[a,b]``             |
-| $\frac{\partial f}{\partial x_a^i}$   | ``DD(f,(a,i))``     | ``DD[f,{a,i}]``         |
+| $x_{ab}^2 = \left(x_a-x_b\right)^2$   | ``xx(a, b)``        | ``xx[a,b]``             |
+| $\frac{\partial f}{\partial x_a^i}$   | ``DD(f, (a, i))``   | ``DD[f,{a,i}]``         |
 
 $x^i_a$ represents the set of $\mathbb{R}^d$ points on which the function depends. The first argument labels the point itself, while the second argument is the coordinate label. In python, both of them should be represented by SymPy symbols. Any vector parameters should also be encoded in this fashion.
 
